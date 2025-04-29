@@ -43,7 +43,14 @@ switch($http_method)
                     }
                     else 
                     {
-                    getMedicament();
+                        if(!empty($_GET["Chercheur"]))
+                        {
+                            getChercheurs();
+                        }
+                        else 
+                        {
+                            getMedicament();
+                        }
                     }
                 }
             }
@@ -56,7 +63,14 @@ switch($http_method)
         }
         else 
         {
-            addActivite();
+            if (isset($_GET["ajoutC"]))
+            {
+                addChercheur();
+            }
+            else 
+            {
+                addActivite();
+            }
         }
         break;
     case 'DELETE':
@@ -87,6 +101,21 @@ function getMedicament($id=0)
     else
     {
         $query = $conn->query("SELECT * FROM medicament");
+    }
+    echo json_encode($query->fetchAll(PDO::FETCH_ASSOC), JSON_PRETTY_PRINT);
+}
+
+function getChercheurs($id=0)
+{
+    global $conn;
+    if ($id != 0)
+    {
+        $query = $conn->prepare("SELECT * FROM chercheurs WHERE idChercheur = ? LIMIT 1");
+        $query->execute([$id]);
+    }
+    else
+    {
+        $query = $conn->query("SELECT * FROM chercheurs");
     }
     echo json_encode($query->fetchAll(PDO::FETCH_ASSOC), JSON_PRETTY_PRINT);
 }
@@ -129,6 +158,18 @@ function addUtilisateur()
         $query = $conn->prepare("INSERT INTO utilisateurs (nom, prenom, nomUtilisateur, mdpUtilisateur) VALUES (?, ?, ?, ?)");
         $success = $query->execute([$_POST["nom"], $_POST["prenom"], $_POST["username"], $_POST["password"]]);
         echo json_encode(['status' => 1, 'status_msg' => 'Utilisateur ajouté'], JSON_PRETTY_PRINT);
+    } catch (PDOException $e) {
+        echo json_encode(['status' => 0, 'status_msg' => 'Erreur ajout: ' . $e->getMessage()], JSON_PRETTY_PRINT);
+    }
+}
+
+function addChercheur()
+{
+    global $conn;
+    try {
+        $query = $conn->prepare("INSERT INTO chercheurs (nom, prenom, specialite) VALUES (?, ?, ?)");
+        $success = $query->execute([$_POST["nom"], $_POST["prenom"], $_POST["specialite"]]);
+        echo json_encode(['status' => 1, 'status_msg' => 'Chercheur ajouté'], JSON_PRETTY_PRINT);
     } catch (PDOException $e) {
         echo json_encode(['status' => 0, 'status_msg' => 'Erreur ajout: ' . $e->getMessage()], JSON_PRETTY_PRINT);
     }
