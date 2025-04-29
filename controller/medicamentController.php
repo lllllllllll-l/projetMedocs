@@ -22,6 +22,25 @@ function addUtilisateur()
     require_once("view/inscription.php");
 }
 
+
+function addChercheur()
+{
+    $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
+    $specialite = $_POST["specialite"];
+    $reponseInscription = insertChercheur($nom,$prenom,$specialite);
+    $decodeReponse = json_decode($reponseInscription,true);
+    if ($decodeReponse["status"]==1)
+    {
+        $_SESSION['inscription_chercheur_success'] = true;
+    }
+    else 
+    {
+        $_SESSION['inscription_chercheur_success'] = false;
+    }
+    require_once("view/inscriptionChercheur.php");
+}
+
 function incriptionActivite()
 {
     $idActivite = $_POST["id"];
@@ -44,6 +63,12 @@ function getAllMedicaments()
     $string_decode = getMedicament($id);
     $selectAll = getMedicament(0);
     require_once ("view/listMedocs.php");
+}
+
+function getAllChercheurs()
+{
+    $string_decode = getChercheurs();
+    require_once ("view/listChercheurs.php");
 }
 
 function getAllActivites()
@@ -91,6 +116,11 @@ function desinscriptionActivite()
 function chargementFormConnexion()
 {
    require_once "view/connexion.php";
+}
+
+function chargementFormInscriptionChercheur()
+{
+    require_once "view/inscriptionChercheur.php";
 }
 
 function chargementMentionLegales()

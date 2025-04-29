@@ -23,6 +23,16 @@
                     </button>
                 </form>
                 <form action="index.php" method="POST">
+                    <button type="submit" name="action" value="chargementFormChercheurs" class="btnNavBar">
+                        Liste Chercheurs
+                    </button>
+                </form>
+                <form action="index.php" method="POST">
+                    <button type="submit" name="action" value="chargementFormAjoutChercheur" class="btnNavBar">
+                        Ajouter un chercheur
+                    </button>
+                </form>
+                <form action="index.php" method="POST">
                     <button type="submit" name="action" value="deconnexion" class="btnNavBar" id="headerBtnDeconnexion">
                         Se Déconnecter
                     </button>

@@ -14,6 +14,20 @@ function insertUtilisateur($nom,$prenom,$username,$password)
     return $result;
 }
 
+function insertChercheur($nom,$prenom,$specialite)
+{
+    $url = 'http://127.0.0.1/projetMedocs/api/Medicament.php?ajoutC=true';
+    $data = array('nom' => $nom, 'prenom' => $prenom, 'specialite' => $specialite);
+    $options = array('http' => array('header'=> "Content-type: application/x-www-form-urlencoded\r\n", 'method'=> 'POST', 'content'=> http_build_query($data)));
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    if ($result === FALSE)
+    {
+        /* qqchose */
+    }
+    return $result;
+}
+
 function insertActivite($idUtilisateur,$idActivite)
 {
     $url = 'http://127.0.0.1/projetMedocs/api/Medicament.php';
@@ -31,6 +45,17 @@ function insertActivite($idUtilisateur,$idActivite)
 function getMedicament($id)
 {
     $url = "http://127.0.0.1/projetMedocs/api/Medicament.php?id=".$id;
+    $options = array('http' => array('header'=> "Content-type: application/x-www-form-urlencoded\r\n", 'method'=> 'GET'));
+    $context = stream_context_create($options);
+    $result = file_get_contents($url,false,$context);
+    $string_decode = json_decode($result, true);
+    return $string_decode;
+}
+
+
+function getChercheurs()
+{
+    $url = "http://127.0.0.1/projetMedocs/api/Medicament.php?Chercheur=true";
     $options = array('http' => array('header'=> "Content-type: application/x-www-form-urlencoded\r\n", 'method'=> 'GET'));
     $context = stream_context_create($options);
     $result = file_get_contents($url,false,$context);

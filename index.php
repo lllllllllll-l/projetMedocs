@@ -67,6 +67,18 @@ if (isset($_POST["action"]))
     {
         suppressionCompte();
     }
+    if ($_POST["action"]=="chargementFormChercheurs")
+    {
+        getAllChercheurs();
+    }
+    if ($_POST["action"]=="inscriptionChercheur")
+    {
+        addChercheur();
+    }
+    if ($_POST["action"]=="chargementFormAjoutChercheur")
+    {
+        chargementFormInscriptionChercheur();
+    }
 }
 else 
 {
